@@ -28,8 +28,12 @@ export class UserService {
     return user
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`
+  async findOne(email: string) {
+    return await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    })
   }
 
   /* findAll() {
