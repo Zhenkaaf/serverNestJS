@@ -1,7 +1,6 @@
 import { JwtService } from '@nestjs/jwt'
 import { Injectable, BadRequestException } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { User } from './entities/user.entity'
@@ -27,7 +26,10 @@ export class UserService {
       password: await argon2.hash(createUserDto.password),
     })
 
-    const token = this.jwtService.sign({ email: createUserDto.email })
+    const token = this.jwtService.sign({
+      id: user.id,
+      email: createUserDto.email,
+    })
 
     return { user, token }
   }
