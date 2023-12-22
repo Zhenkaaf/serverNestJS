@@ -14,16 +14,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  /*  async validate(user: IUser) {
-    return { id: user.id, email: user.email }
-  } */
   async validate(user: IUser) {
+    return { id: user.id, email: user.email }
+  }
+  /* async validate(user: IUser) {
     if (user.id) {
       return { id: user.id, email: user.email }
     } else {
       return { email: user.email }
     }
-  }
+  } */
 }
 
 /* constructor(private readonly configService: ConfigService):
