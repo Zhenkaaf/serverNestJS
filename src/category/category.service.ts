@@ -57,12 +57,33 @@ export class CategoryService {
     return category
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  async update(
+    categoryId: number,
+    updateCategoryDto: UpdateCategoryDto,
+    userId,
+  ) {
+    const isExist = await this.categoryRepository.findBy({
+      // вернет массив
+      user: { id: userId },
+      title: updateCategoryDto.title,
+    })
+    if (isExist.length)
+      throw new BadRequestException(
+        'Category with such title has already exist!',
+      )
+
     const category = await this.categoryRepository.findOne({
-      where: { id },
+      where: { id: categoryId },
     })
     if (!category) throw new NotFoundException('Category not found')
-    return await this.categoryRepository.update(id, updateCategoryDto)
+
+    /*  if (category.title === updateCategoryDto.title) {
+      throw new BadRequestException(
+        'Category with such title has already exist!',
+      )
+    } */
+
+    return await this.categoryRepository.update(categoryId, updateCategoryDto)
   }
 
   async remove(id: number) {

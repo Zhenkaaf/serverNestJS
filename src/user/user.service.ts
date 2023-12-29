@@ -19,7 +19,7 @@ export class UserService {
         email: createUserDto.email,
       },
     })
-    if (existUser) throw new BadRequestException('This email.already exist!')
+    if (existUser) throw new BadRequestException('This email already exist!')
 
     const user = await this.userRepository.save({
       email: createUserDto.email,

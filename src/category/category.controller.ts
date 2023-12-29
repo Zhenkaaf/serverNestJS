@@ -45,10 +45,15 @@ export class CategoryController {
   @Patch(':type/:id')
   @UseGuards(JwtAuthGuard, AuthorGuard)
   update(
-    @Param('id') id: string, //@Param('id') извлекает значение параметра id не из токена, а из части URL-адреса запроса.
+    @Param('id') categoryId: string, //@Param('id') извлекает значение параметра id не из токена, а из части URL-адреса запроса.
     @Body() updateCategoryDto: UpdateCategoryDto,
+    @Req() req,
   ) {
-    return this.categoryService.update(+id, updateCategoryDto)
+    return this.categoryService.update(
+      +categoryId,
+      updateCategoryDto,
+      +req.user.id,
+    )
   }
 
   @Delete(':type/:id')
